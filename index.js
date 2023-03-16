@@ -34,7 +34,6 @@ const makeGroups = contents => {
     e.date = new Date(
       `${split.slice(0, 3).join("-")}T${split.slice(3).join(":")}`
     );
-    console.log(key);
     e.displayName = key
       .split(/__|_-_/)
       .filter(Boolean)

@@ -5,6 +5,7 @@ html {
 }
 
 body {
+  /* https://github.com/system-fonts/modern-font-stacks#slab-serif */
   font-family: Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif;
   background: #eae9e0;
 }
@@ -53,7 +54,6 @@ nav ul a {
 
 nav li {
   margin-right: 1em;
-  display: block;
 }
 nav li:last-child {
   margin-right: 0;
@@ -80,7 +80,7 @@ main p {
 }
 
 .card {
-  width: 350px;
+  max-width: 350px;
   margin: 1em;
   border: 1px solid #999;
   padding: 1em;  
@@ -93,17 +93,16 @@ main p {
   flex-grow: 1;
 }
 
+@media (min-width: 500px) {
+  nav ul {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}
+
 @media (min-width: 800px) {
   .photo-container {
     display: flex;
     flex-flow: row wrap;
-  }
-
-  nav li {
-    margin-right: 1em;
-    display: inline;
-  }
-  nav li:last-child {
-    margin-right: 0;
   }
 }
