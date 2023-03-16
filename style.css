@@ -1,0 +1,109 @@
+html {
+  max-width: 170ch;
+  margin: auto;
+  line-height: 1.75;
+}
+
+body {
+  font-family: Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif;
+  background: #eae9e0;
+}
+
+img {
+  max-width: 100%;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  /*color: #0000EE;*/
+  color: #666;
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 2.75em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 3em 0 1em;
+}
+
+p,
+ul,
+ol {
+  margin-bottom: 2em;
+  color: #1d1d1d;
+}
+
+nav ul {
+  padding: 0;
+  list-style: none;
+}
+
+nav ul a {
+  font-size: 1.25em;
+}
+
+nav li {
+  margin-right: 1em;
+  display: block;
+}
+nav li:last-child {
+  margin-right: 0;
+}
+
+header {
+  padding: 2em;
+  padding-bottom: 0;
+}
+
+main {
+  margin: auto;
+}
+
+main p {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.photo-container {
+  display: block;
+  padding: 1em;
+  padding-top: 1em;
+}
+
+.card {
+  width: 350px;
+  margin: 1em;
+  border: 1px solid #999;
+  padding: 1em;  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card div:first-child {
+  flex-grow: 1;
+}
+
+@media (min-width: 800px) {
+  .photo-container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  nav li {
+    margin-right: 1em;
+    display: inline;
+  }
+  nav li:last-child {
+    margin-right: 0;
+  }
+}

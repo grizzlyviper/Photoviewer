@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <!-- **DO THIS**: -->
     <!--   Replace SDK_VERSION_NUMBER with the current SDK version number -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1255.0.min.js"></script>
-    <script src="./PhotoViewer.js"></script>
-    <script>listAlbums();</script>
-    <style>
-      .photo-container{
-        display:flex;
-        flex-flow:row wrap;
-        white-space: normal;
-      }
-      .card{
-        margin: 1em;
-        border: 1px solid black;
-        padding: 1em;  
-      }
-      
 
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.0.9/index.min.js"></script>
+    <title>Mountain Viewer</title>
   </head>
   <body>
-    <h1>Photo Album Viewer</h1>
-    <div id="viewer" />
+    <header>
+      <h1>Mountain Viewer</h1>
+      <nav>
+        <ul>
+          <li><a href="#northern">Northern</a></li>
+          <li><a href="#central">Central</a></li>
+          <li><a href="#southern">Southern</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <noscript>
+        <p>JavaScript must be enabled to use this site.</p>
+      </noscript>
+      <div id="viewer"></div>
+    </main>
+    <script src="index.js"></script>
   </body>
 </html>
