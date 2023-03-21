@@ -17,34 +17,30 @@ const s3 = new AWS.S3({
   params: {Bucket: albumBucketName},
 });
 
+// This structure maps URL hashes to S3 bucket names
 const regions = {
   "#northern": "NorthernMtns",
   "#central": "CentralMtns",
   "#southern": "SouthernMtns",
 };
 
-const makeGroups = contents => {
+const groupByCamera = contents => {
   const groups = {};
 
   contents.forEach(e => {
-    const [_, key, name] = e.Key.split("/");
-    const split = name
-      .match(/-([-\d]+)\.(?:png|jpg|jpeg)$/)[1]
-      .split("-");
-    e.date = new Date(
-      `${split.slice(0, 3).join("-")}T${split.slice(3).join(":")}`
-    );
-    e.displayName = key
+    const [, camera, filename] = e.Key.split("/");
+    e.date = new Date(filename.split(".")[0].replace(/_/g, ":"));
+    e.displayName = camera
       .split(/__|_-_/)
       .filter(Boolean)
       .map(e => e.replace(/[-_]/g, " "))
       .join(", ");
 
-    if (!groups[key]) {
-      groups[key] = [];
+    if (!groups[camera]) {
+      groups[camera] = [];
     }
 
-    groups[key].push(e);
+    groups[camera].push(e);
   });
 
   return groups;
@@ -73,46 +69,45 @@ const render = region => {
     // 'this' references the AWS.Request instance that represents the response
     const href = this.request.httpRequest.endpoint.href;
 
-    const groups = makeGroups(data.Contents);
+    const groups = groupByCamera(data.Contents);
 
     for (const group in groups) {
       groups[group].sort((a, b) => b.date - a.date);
     }
 
     const photoHTML = Object.entries(groups).map(([groupName, group]) => {
-        const photo = group[0];
-        const bucketUrl = `${href}${albumBucketName}/`;
-        const photoUrl = bucketUrl + photo.Key;
-        const photoDate = photo.date.toString().slice(0, 25);
-        const galleryHTML = group
-          .slice(1)
-          .map(e => `
-            <a data-fslightbox="${groupName}"
-                href="${bucketUrl + e.Key}"
-                data-type="image"
-             ></a>
-          `)
-          .join("");
-        return `
-        <div class="card">
-          <div>
-            <a data-fslightbox="${groupName}" href="${photoUrl}" data-type="image">
-              <img alt="photo of a mountain" src="${photoUrl}">
-            </a>
-            ${galleryHTML}
-          </div>
-          <div>
-            ${photo.displayName}
-          </div>
-          <div>
-            <small>
-              ${photoDate}
-            </small>
-          </div>
+      const photo = group[0];
+      const bucketUrl = `${href}${albumBucketName}/`;
+      const photoUrl = bucketUrl + photo.Key;
+      const photoDate = photo.date.toString().slice(0, 25);
+      const galleryHTML = group
+        .slice(1)
+        .map(e => `
+          <a data-fslightbox="${groupName}"
+              href="${bucketUrl + e.Key}"
+              data-type="image"
+           ></a>
+        `)
+        .join("");
+      return `
+      <div class="card">
+        <div>
+          <a data-fslightbox="${groupName}" href="${photoUrl}" data-type="image">
+            <img alt="photo of a mountain" src="${photoUrl}">
+          </a>
+          ${galleryHTML}
         </div>
-      `;
-      }
-    );
+        <div>
+          ${photo.displayName}
+        </div>
+        <div>
+          <small>
+            ${photoDate}
+          </small>
+        </div>
+      </div>
+    `;
+    });
 
     const message = photoHTML.length
       ? `The following cameras are present for the ${region.slice(1)} region.`
