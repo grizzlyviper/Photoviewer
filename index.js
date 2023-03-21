@@ -80,39 +80,38 @@ const render = region => {
     }
 
     const photoHTML = Object.entries(groups).map(([groupName, group]) => {
-        const photo = group[0];
-        const bucketUrl = `${href}${albumBucketName}/`;
-        const photoUrl = bucketUrl + photo.Key;
-        const photoDate = photo.date.toString().slice(0, 25);
-        const galleryHTML = group
-          .slice(1)
-          .map(e => `
-            <a data-fslightbox="${groupName}"
-                href="${bucketUrl + e.Key}"
-                data-type="image"
-             ></a>
-          `)
-          .join("");
-        return `
-        <div class="card">
-          <div>
-            <a data-fslightbox="${groupName}" href="${photoUrl}" data-type="image">
-              <img alt="photo of a mountain" src="${photoUrl}">
-            </a>
-            ${galleryHTML}
-          </div>
-          <div>
-            ${photo.displayName}
-          </div>
-          <div>
-            <small>
-              ${photoDate}
-            </small>
-          </div>
+      const photo = group[0];
+      const bucketUrl = `${href}${albumBucketName}/`;
+      const photoUrl = bucketUrl + photo.Key;
+      const photoDate = photo.date.toString().slice(0, 25);
+      const galleryHTML = group
+        .slice(1)
+        .map(e => `
+          <a data-fslightbox="${groupName}"
+              href="${bucketUrl + e.Key}"
+              data-type="image"
+           ></a>
+        `)
+        .join("");
+      return `
+      <div class="card">
+        <div>
+          <a data-fslightbox="${groupName}" href="${photoUrl}" data-type="image">
+            <img alt="photo of a mountain" src="${photoUrl}">
+          </a>
+          ${galleryHTML}
         </div>
-      `;
-      }
-    );
+        <div>
+          ${photo.displayName}
+        </div>
+        <div>
+          <small>
+            ${photoDate}
+          </small>
+        </div>
+      </div>
+    `;
+    });
 
     const message = photoHTML.length
       ? `The following cameras are present for the ${region.slice(1)} region.`
