@@ -17,23 +17,19 @@ const s3 = new AWS.S3({
   params: {Bucket: albumBucketName},
 });
 
+// This structure maps URL hashes to S3 bucket names
 const regions = {
   "#northern": "NorthernMtns",
   "#central": "CentralMtns",
   "#southern": "SouthernMtns",
 };
 
-const makeGroups = contents => {
+const groupByCamera = contents => {
   const groups = {};
 
   contents.forEach(e => {
     const [_, key, name] = e.Key.split("/");
-    const split = name
-      .match(/-([-\d]+)\.(?:png|jpg|jpeg)$/)[1]
-      .split("-");
-    e.date = new Date(
-      `${split.slice(0, 3).join("-")}T${split.slice(3).join(":")}`
-    );
+    e.date = new Date(name.split(".")[0].replace(/_/g, ":"));
     e.displayName = key
       .split(/__|_-_/)
       .filter(Boolean)
@@ -73,7 +69,7 @@ const render = region => {
     // 'this' references the AWS.Request instance that represents the response
     const href = this.request.httpRequest.endpoint.href;
 
-    const groups = makeGroups(data.Contents);
+    const groups = groupByCamera(data.Contents);
 
     for (const group in groups) {
       groups[group].sort((a, b) => b.date - a.date);
