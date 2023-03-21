@@ -28,19 +28,19 @@ const groupByCamera = contents => {
   const groups = {};
 
   contents.forEach(e => {
-    const [_, key, name] = e.Key.split("/");
-    e.date = new Date(name.split(".")[0].replace(/_/g, ":"));
-    e.displayName = key
+    const [, camera, filename] = e.Key.split("/");
+    e.date = new Date(filename.split(".")[0].replace(/_/g, ":"));
+    e.displayName = camera
       .split(/__|_-_/)
       .filter(Boolean)
       .map(e => e.replace(/[-_]/g, " "))
       .join(", ");
 
-    if (!groups[key]) {
-      groups[key] = [];
+    if (!groups[camera]) {
+      groups[camera] = [];
     }
 
-    groups[key].push(e);
+    groups[camera].push(e);
   });
 
   return groups;
